@@ -1,5 +1,5 @@
 name: nvidia-550-user
-base: core 24
+base: core24
 adopt-info: version
 summary: NVIDIA libraries for core24 snaps
 description: |
@@ -10,9 +10,9 @@ grade: stable
 license: Proprietary
 confinement: strict
 
-architectures:
-  - build-on: amd64
-  - build-on: arm64
+platforms:
+  amd64:
+  arm64:
 
 parts:
   nvidia:
@@ -31,7 +31,7 @@ parts:
       - xserver-xorg-video-nvidia-550
     organize:
       'usr/bin/*': bin/
-      bin/kernel-gpu-2404-wrapper: bin/kernel-gpu-2404-wrapper
+      scripts/bin/kernel-gpu-2404-wrapper: scripts/bin/kernel-gpu-2404-wrapper
     prime:
       - etc/OpenCL
       - usr/lib
@@ -50,6 +50,32 @@ parts:
         LANG=C
         apt-cache policy libnvidia-common-550-server | sed -rne 's/^\s+Candidate:\s+([^-]*)-.+$/\1/p' | tr -d '\n'
       )"
+
+  file-list:
+    after:
+    - nvidia
+    plugin: nil
+    override-prime: |
+      mkdir -p ${CRAFT_PRIME}/snap
+      (
+        cd ${CRAFT_PART_INSTALL}/../..
+        # All the cruft coming from stage packages, but not actually staged
+        find $( ls -d */install/{etc,usr/{bin,share/{bug,doc,lintian,man}}} ) -type f,l | cut -d/ -f3-
+        cd ${CRAFT_PRIME}
+        # Everything that is indeed staged
+        find usr -type f,l
+      ) | sort -u > ${CRAFT_PRIME}/snap/${CRAFT_TARGET_ARCH}.list
+
+  scripts:
+    after: [file-list]
+    plugin: dump
+    source: scripts
+
+  symlinks:
+    after: [file-list]
+    plugin: nil
+    override-prime: |
+      ldconfig -N -r $CRAFT_PRIME
 
 slots:
   kernel-gpu-2404:

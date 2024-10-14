@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+
+SELF="$( cd -- "$(dirname "$0")/.." ; pwd -P )"
+
+ARCH_TRIPLET="$(arch)-linux-gnu"
+
+OCL_ICD_VENDORS=${OCL_ICD_VENDORS:+$OCL_ICD_VENDORS:}${SELF}/etc/OpenCL/vendors
+
+export OCL_ICD_VENDORS
+
+exec "${@}"
+
