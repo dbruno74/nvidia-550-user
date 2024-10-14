@@ -31,7 +31,6 @@ parts:
       - xserver-xorg-video-nvidia-550
     organize:
       'usr/bin/*': bin/
-      scripts/bin/kernel-gpu-2404-wrapper: scripts/bin/kernel-gpu-2404-wrapper
     prime:
       - etc/OpenCL
       - usr/lib
@@ -82,4 +81,4 @@ slots:
     interface: content
     source: 
       read:
-        - $SNAP_DATA/kernel-gpu-2404
+        - $SNAP_COMMON/kernel-gpu-2404

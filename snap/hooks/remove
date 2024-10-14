@@ -2,8 +2,8 @@
 
 set -eux
 
-SENTINEL_FILE="$SNAP_DATA"/kernel-gpu-2404/kernel-gpu-2404-sentinel
+SENTINEL_FILE="$SNAP_COMMON"/kernel-gpu-2404/kernel-gpu-2404-sentinel
 
 rm $SENTINEL_FILE
 
-rm -rf "$SNAP_DATA"/kernel-gpu-2404
+rm -rf "$SNAP_COMMON"/kernel-gpu-2404
