@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -eux
+
+SENTINEL_FILE="$SNAP_DATA"/kernel-gpu-2404/kernel-gpu-2404-sentinel
+
+#clean up existing installs
+rm -rf "$SNAP_DATA"/kernel-gpu-2404
+mkdir "$SNAP_DATA"/kernel-gpu-2404
+
+cp -r "$SNAP"/usr "$SNAP_DATA"/kernel-gpu-2404
+
+# put version information into sentinel file
+echo "$SNAP_REVISION" > $SENTINEL_FILE

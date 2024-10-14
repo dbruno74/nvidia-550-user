@@ -1,0 +1,58 @@
+name: nvidia-550-user
+base: core 24
+adopt-info: version
+summary: NVIDIA libraries for core24 snaps
+description: |
+  Content snap that provides NVIDIA libraries for `base:
+  core24` snaps.
+compression: lzo
+grade: stable
+license: Proprietary
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+parts:
+  nvidia:
+    plugin: nil
+    stage-packages:
+      - libnvidia-egl-wayland1
+      - libnvidia-cfg1-550-server
+      - libnvidia-common-550-server
+      - libnvidia-compute-550-server
+      - libnvidia-decode-550-server
+      - libnvidia-encode-550-server
+      - libnvidia-extra-550-server
+      - libnvidia-gl-550-server
+      - libnvidia-fbc1-550-server
+      - nvidia-utils-550-server
+      - xserver-xorg-video-nvidia-550
+    organize:
+      'usr/bin/*': bin/
+    prime:
+      - etc/OpenCL
+      - usr/lib
+      - usr/share/glvnd
+      - usr/share/egl
+      - usr/share/nvidia
+      - usr/share/vulkan
+      - usr/share/X11/xorg.conf.d
+      - bin/nvidia-smi
+
+  version:
+    plugin: nil
+    override-pull: |
+      set -x
+      craftctl set version="$(
+        LANG=C
+        apt-cache policy libnvidia-common-550-server | sed -rne 's/^\s+Candidate:\s+([^-]*)-.+$/\1/p' | tr -d '\n'
+      )"
+
+slots:
+  kernel-gpu-2404:
+    interface: content
+    source: 
+      read:
+        - $SNAP_DATA/kernel-gpu-2404
