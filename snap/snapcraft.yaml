@@ -31,6 +31,7 @@ parts:
       - xserver-xorg-video-nvidia-550
     organize:
       'usr/bin/*': bin/
+      bin/kernel-gpu-2404-wrapper: bin/kernel-gpu-2404-wrapper
     prime:
       - etc/OpenCL
       - usr/lib
