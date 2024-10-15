@@ -79,6 +79,5 @@ parts:
 slots:
   kernel-gpu-2404:
     interface: content
-    source: 
-      read:
-        - $SNAP_COMMON/kernel-gpu-2404
+    read:
+      - $SNAP_COMMON/kernel-gpu-2404

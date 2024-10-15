@@ -4,9 +4,10 @@ set -eux
 
 SENTINEL_FILE="$SNAP_COMMON"/kernel-gpu-2404/kernel-gpu-2404-sentinel
 
+mkdir --parents "$SNAP_COMMON"/kernel-gpu-2404
+
 #clean up existing installs
-rm -rf "$SNAP_COMMON"/kernel-gpu-2404
-mkdir "$SNAP_COMMON"/kernel-gpu-2404
+rm -rf "$SNAP_COMMON"/kernel-gpu-2404/*
 cp -r "$SNAP"/* "$SNAP_COMMON"/kernel-gpu-2404
 
 # put version information into sentinel file
